@@ -1,0 +1,5 @@
+[
+  {"code": "subscription_revenue", "unit": "CNY_MILLION", "kind": "input"},
+  {"code": "advertising_revenue", "unit": "CNY_MILLION", "kind": "input"},
+  {"code": "total_revenue", "unit": "CNY_MILLION", "kind": "formula", "expression": "subscription_revenue + advertising_revenue"}
+]

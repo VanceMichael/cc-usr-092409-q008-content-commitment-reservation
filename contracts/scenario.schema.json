@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "预测场景输入",
+  "type": "object",
+  "required": ["scenario_id", "periods", "assumptions"],
+  "properties": {
+    "scenario_id": {"type": "string", "minLength": 1},
+    "periods": {"type": "array", "items": {"type": "string"}, "minItems": 1},
+    "assumptions": {"type": "object", "additionalProperties": {"type": "number"}}
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,12 @@
+.git
+.gitignore
+.env
+node_modules
+dist
+target
+.pytest_cache
+__pycache__
+*.pyc
+*.db
+*.mv.db
+data
