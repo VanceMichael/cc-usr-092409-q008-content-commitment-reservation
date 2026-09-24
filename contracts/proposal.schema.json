@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "采购承诺容量占用申请",
+  "description": "PUT /v1/proposals 请求体；金额一律为币种 minor unit 非负整数，申请必须携带幂等键。",
+  "type": "object",
+  "required": [
+    "projectId",
+    "poolId",
+    "forecastId",
+    "forecastVersion",
+    "terms",
+    "submittedBy"
+  ],
+  "properties": {
+    "proposalId": {"type": "string", "minLength": 1},
+    "idempotencyKey": {"type": "string", "minLength": 1},
+    "projectId": {"type": "string", "minLength": 1},
+    "poolId": {"type": "string", "minLength": 1},
+    "forecastId": {"type": "string", "minLength": 1},
+    "forecastVersion": {"type": "integer", "minimum": 1},
+    "ttlHours": {"type": "number", "exclusiveMinimum": 0},
+    "expiresAt": {"type": "string", "format": "date-time"},
+    "submittedBy": {"type": "string", "minLength": 1},
+    "terms": {
+      "type": "object",
+      "required": ["guarantee", "milestones", "royaltyTiers"],
+      "properties": {
+        "guarantee": {"$ref": "#/$defs/money"},
+        "contingentCap": {"oneOf": [{"$ref": "#/$defs/money"}, {"type": "null"}]},
+        "milestones": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["code", "trigger", "dueDate", "amount"],
+            "properties": {
+              "code": {"type": "string", "minLength": 1},
+              "trigger": {"type": "string"},
+              "dueDate": {"type": "string", "format": "date-time"},
+              "amount": {"$ref": "#/$defs/money"}
+            },
+            "additionalProperties": false
+          }
+        },
+        "royaltyTiers": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["threshold", "rate"],
+            "properties": {
+              "threshold": {"type": "integer", "minimum": 0},
+              "rate": {"type": "number", "minimum": 0, "maximum": 1}
+            },
+            "additionalProperties": false
+          }
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "money": {
+      "type": "object",
+      "required": ["amount", "currency", "minorUnit"],
+      "properties": {
+        "amount": {"type": "integer", "minimum": 0},
+        "currency": {"type": "string", "minLength": 3, "maxLength": 3},
+        "minorUnit": {"type": "integer", "minimum": 0, "maximum": 8}
+      },
+      "additionalProperties": false
+    }
+  }
+}
